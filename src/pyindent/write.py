@@ -17,11 +17,6 @@ class IndentWriter:
         self.level_indent = level_indent
         self.separators = "\n"
         self.closed = False
-    def close(self):
-        if not self.closed:
-            self.file.close()
-            self.closed = True
-            self.file = None
 
     def __enter__(self):
         return self
@@ -29,25 +24,37 @@ class IndentWriter:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
+    def __del__(self):
+        self.close()
+
+    def close(self):
+        if not self.closed:
+            self.file.close()
+            self.closed = True
+            self.file = None
+
+    def destroy(self):
+        self.close()
+        self.file = None
+
+
     def indent(self, value: int = 1):
         self.level_indent = max(0, self.level_indent + value)
 
     def dedent(self, value: int = 1):
         self.level_indent = max(0, self.level_indent - value)
 
-    def get_indent(self) -> int:
-        return self.level_indent
-
     def set_indent(self, value: int):
         if value < 0:
             raise ValueError("Invalid level indent")
         self.level_indent = value
+
+    def get_indent(self) -> int:
+        return self.level_indent
+
     def write(self, s: str,end: str = "\n"):
         if self.closed:
             raise ValueError("Cannot write to closed file")
         self.file.write(self.indent_char*self.level_indent+s+end)
-    def destroy(self):
-        self.close()
-        self.file = None
-    def __del__(self):
-        self.close()
+
+
