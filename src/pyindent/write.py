@@ -13,11 +13,10 @@ class IndentWriter:
             raise ValueError("Invalid level indent")
         if indent_char == "":
             raise ValueError("Invalid indent_char")
-        self.file = open(filename, mode)
-        self.indent_char = indent_char
-        self.level_indent = level_indent
-        self.separators = "\n"
-        self.closed = False
+        self._file = open(filename, mode)
+        self._indent_char = indent_char
+        self._level_indent = level_indent
+        self._closed = False
 
     def __enter__(self):
         return self
@@ -30,11 +29,9 @@ class IndentWriter:
 
     def __repr__(self) -> str:
         raise NotImplementedError
-        return f"{self.__class__.__name__}({self.file}, {self.level_indent})"
+        return f"{self.__class__.__name__}({self._file}, {self._level_indent})"
 
-    def __str__(self) -> str:
-        raise TypeError("String conversion is disabled")
-
+    __str__=None
     __eq__ =None
     __hash__ = None
     __ge__ = None
@@ -44,36 +41,35 @@ class IndentWriter:
     __le__ = None
 
     def close(self):
-        if not self.closed:
-            self.file.close()
-            self.closed = True
-            self.file = None
+        if not self._closed:
+            self._file.close()
+            self._closed = True
+            self._file = None
 
     def destroy(self):
         self.close()
-        self.file = None
+        self._file = None
 
 
     def indent(self, value: int = 1):
-        self.level_indent = max(0, self.level_indent + value)
+        self._level_indent = max(0, self._level_indent + value)
 
     def dedent(self, value: int = 1):
-        self.level_indent = max(0, self.level_indent - value)
+        self._level_indent = max(0, self._level_indent - value)
 
     def set_indent(self, value: int):
         if value < 0:
             raise ValueError("Invalid level indent")
-        self.level_indent = value
+        self._level_indent = value
 
     def get_indent(self) -> int:
-        return self.level_indent
+        return self._level_indent
 
-    def write(self, s: str,end: str = "\n"):
-        if self.closed:
+    def write(self, s: str):
+        if self._closed:
             raise ValueError("Cannot write to closed file")
-        self.file.write(self.indent_char*self.level_indent+s+end)
+        self._file.write(f"{self._indent_char*self._level_indent}{s}\n")
 
     def flush(self):
-        if not self.closed:
-            self.file.flush()
-
+        if not self._closed:
+            self._file.flush()

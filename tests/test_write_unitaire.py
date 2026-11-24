@@ -38,3 +38,7 @@ def test_indentwriter_mode_fake():
     for mode_fake in ["fe","e","o","b","bt","hjg"]:
         with pytest.raises(ValueError):
             IndentWriter(".generated/__output_error__.txt",mode_fake)
+def test_indentwriter_level_error():
+    with pytest.raises(ValueError):
+        IndentWriter(".generated/__output_error__.txt",level_indent=-1)
+
