@@ -70,6 +70,24 @@ class IndentWriter:
             raise ValueError("Cannot write to closed file")
         self._file.write(f"{self._indent_char*self._level_indent}{s}\n")
 
+    def write_line_empty(self,nb_line:int=1):
+        if nb_line < 0:
+            raise ValueError("Invalid number line ")
+        if nb_line == 0:
+            pass
+        if not self._closed:
+            self._file.write("\n"*nb_line)
+
+    def write_line(self,nb_line:int=1):
+        if nb_line < 0:
+            raise ValueError("Invalid number line ")
+        if nb_line == 0:
+            pass
+        if not self._closed:
+            self._file.write(f"{self._indent_char*self._level_indent}\n"*nb_line)
+
+
+
     def flush(self):
         if not self._closed:
             self._file.flush()
