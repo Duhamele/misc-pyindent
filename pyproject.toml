@@ -4,13 +4,30 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyindent"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.10"
 license="GPL-3.0-only"
 dependencies = []
 authors=[
     { name= "Elie Duhamel"}
 ]
+description = "A Python library for indentation"
+keywords = ["python", "indentation"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+[project.urls]
+Homepage="https://github.com/Duhamele/misc-pyindent"
+Repository="https://github.com/Duhamele/misc-pyindent"
+
 [tool.setuptools.packages.find]
 where=["src"]
 
