@@ -3,6 +3,7 @@
 
 class IndentWriter:
     def __init__(self, filename, mode: str = "a", indent_char: str = "\t", level_indent: int = 0):
+
         match mode:
             case "a" | "w" | "x":
                 pass
@@ -26,6 +27,21 @@ class IndentWriter:
 
     def __del__(self):
         self.close()
+
+    def __repr__(self) -> str:
+        raise NotImplementedError
+        return f"{self.__class__.__name__}({self.file}, {self.level_indent})"
+
+    def __str__(self) -> str:
+        raise TypeError("String conversion is disabled")
+
+    __eq__ =None
+    __hash__ = None
+    __ge__ = None
+    __ne__ = None
+    __gt__ = None
+    __lt__ = None
+    __le__ = None
 
     def close(self):
         if not self.closed:
@@ -57,4 +73,7 @@ class IndentWriter:
             raise ValueError("Cannot write to closed file")
         self.file.write(self.indent_char*self.level_indent+s+end)
 
+    def flush(self):
+        if not self.closed:
+            self.file.flush()
 
