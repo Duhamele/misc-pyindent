@@ -3,7 +3,7 @@
 
 class IndentWriter:
     def __init__(self, filename, mode: str = "a", indent_char: str = "\t", level_indent: int = 0):
-
+        self._closed = True #the file opened not
         match mode:
             case "a" | "w" | "x":
                 pass
