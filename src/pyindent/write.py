@@ -31,14 +31,14 @@ class IndentWriter:
         raise NotImplementedError
         return f"{self.__class__.__name__}({self._file}, {self._level_indent})"
 
-    __str__=None
-    __eq__ =None
-    __hash__ = None
-    __ge__ = None
-    __ne__ = None
-    __gt__ = None
-    __lt__ = None
-    __le__ = None
+    __str__     = None
+    __eq__      = None
+    __hash__    = None
+    __ge__      = None
+    __ne__      = None
+    __gt__      = None
+    __lt__      = None
+    __le__      = None
 
     def close(self):
         if not self._closed:
@@ -86,7 +86,11 @@ class IndentWriter:
         if not self._closed:
             self._file.write(f"{self._indent_char*self._level_indent}\n"*nb_line)
 
-
+    def write_multiline(self,paragraphe:str):
+        if not self._closed:
+            paragraphe=paragraphe.split("\n")
+            for line in paragraphe:
+                self.write(line)
 
     def flush(self):
         if not self._closed:
